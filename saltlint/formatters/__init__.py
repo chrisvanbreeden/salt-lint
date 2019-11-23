@@ -101,7 +101,7 @@ class SeverityFormatter(BaseFormatter):
 
 class JsonFormatter(object):
 
-    def process(self, matches, *args, **kwargs):
+    def process(self, matches):
         items = []
         for match in matches:
             items.append(self.format(match))
