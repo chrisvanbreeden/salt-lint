@@ -42,12 +42,6 @@ class BaseFormatter(object):
     def __init__(self, colored=False):
         self.colored = colored
 
-
-class BaseFormatter(object):
-
-    def __init__(self, colored=False):
-        self.colored = colored
-
     def process(self, matches):
         for match in matches:
             print(self.format(match))
@@ -80,29 +74,20 @@ class SeverityFormatter(BaseFormatter):
     def format(self, match):
         formatstr = u"{0} {sev} {1}\n{2}:{3}\n{4}\n"
 
-        if self.colored:
-            color = saltcolor.get_colors()
-            return formatstr.format(
-                u'{0}[{1}]{2}'.format(color['RED'], match.rule.id,
-                                      color['ENDC']),
-                u'{0}{1}{2}'.format(color['LIGHT_RED'], match.message,
-                                    color['ENDC']),
-                u'{0}{1}{2}'.format(color['BLUE'], match.filename,
-                                    color['ENDC']),
-                u'{0}{1}{2}'.format(color['CYAN'], str(match.linenumber),
-                                    color['ENDC']),
-                u'{0}{1}{2}'.format(color['MAGENTA'], match.line, color['ENDC']),
-                sev=u'{0}[{1}]{2}'.format(color['RED'], match.rule.severity,
-                                          color['ENDC'])
-            )
-
+        color = get_colors(self.colored)
         return formatstr.format(
-            u'[{0}]'.format(match.rule.id),
-            match.message,
-            match.filename,
-            match.linenumber,
-            match.line,
-            sev=u'[{0}]'.format(match.rule.severity))
+            u'{0}[{1}]{2}'.format(color['RED'], match.rule.id,
+                                  color['ENDC']),
+            u'{0}{1}{2}'.format(color['LIGHT_RED'], match.message,
+                                color['ENDC']),
+            u'{0}{1}{2}'.format(color['BLUE'], match.filename,
+                                color['ENDC']),
+            u'{0}{1}{2}'.format(color['CYAN'], str(match.linenumber),
+                                color['ENDC']),
+            u'{0}{1}{2}'.format(color['MAGENTA'], match.line, color['ENDC']),
+            sev=u'{0}[{1}]{2}'.format(color['RED'], match.rule.severity,
+                                      color['ENDC'])
+        )
 
 
 class JsonFormatter(BaseFormatter):
